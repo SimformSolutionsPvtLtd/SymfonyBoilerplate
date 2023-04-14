@@ -1,0 +1,172 @@
+{% extends 'admin/admin_base.html.twig' %}
+{% block style %}
+    {{ parent() }}
+{% endblock %}
+{% block body %}
+    {% import _self as formMacros %}
+    {% macro carOwnerForm(ownerForm) %}
+        <div class="col-xs-4 js-car-owner-item">
+            <a href="#" class="js-remove-owner pull-right text-bold position-absolute">
+                <span class="fa fa-close"></span>
+                {{ 'Delete'|trans }}
+            </a>
+            {{ form_errors(ownerForm) }}
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="form-group">
+                        {% set required_name = ownerForm.name.vars.errors|length > 0 ? 'is-invalid':'' %}
+                        {{ form_label(ownerForm.name) }}
+                        {{ form_widget(ownerForm.name, {'attr': {'class': 'form-control ' ~ required_name}}) }}
+                        {{ form_errors(ownerForm.name) }}
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="form-group">
+                        {% set required_email = ownerForm.email.vars.errors|length > 0 ? 'is-invalid':'' %}
+                        {{ form_label(ownerForm.email) }}
+                        {{ form_widget(ownerForm.email, {'attr': {'class': 'form-control ' ~ required_email}}) }}
+                        {{ form_errors(ownerForm.email) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="form-group">
+                        {% set required_city = ownerForm.city.vars.errors|length > 0 ? 'is-invalid':'' %}
+                        {{ form_label(ownerForm.city) }}
+                        {{ form_widget(ownerForm.city, {'attr': {'class': 'form-control ' ~ required_city}}) }}
+                        {{ form_errors(ownerForm.city) }}
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="form-group">
+                        {% set required_state = ownerForm.state.vars.errors|length > 0 ? 'is-invalid':'' %}
+                        {{ form_label(ownerForm.state) }}
+                        {{ form_widget(ownerForm.state, {'attr': {'class': 'form-control ' ~ required_state}}) }}
+                        {{ form_errors(ownerForm.state) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="form-group">
+                        {% set required_country = ownerForm.country.vars.errors|length > 0 ? 'is-invalid':'' %}
+                        {{ form_label(ownerForm.country) }}
+                        {{ form_widget(ownerForm.country, {'attr': {'class': 'form-control ' ~ required_country}}) }}
+                        {{ form_errors(ownerForm.country) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="hr hr-blurry" />
+    {% endmacro %}
+    <section class="content">
+        {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+        {% form_theme form 'admin/form_errors.html.twig' %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header bg-light">
+                        <h4 class="text-bold">{{ (car.id)? 'Edit':'New' }} Car</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    {% set required_type = form.type.vars.errors|length > 0 ? 'is-invalid':'' %}
+                                    {{ form_label(form.type) }}
+                                    {{ form_widget(form.type, {'attr': {'class': 'form-control custom-select '  ~ required_type }}) }}
+                                    {{ form_errors(form.type) }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    {% set required_manufacturer = form.manufacturer.vars.errors|length > 0 ? 'is-invalid':'' %}
+                                    {{ form_label(form.manufacturer) }}
+                                    {{ form_widget(form.manufacturer, {'attr': {'class': 'form-control custom-select ' ~ required_manufacturer}}) }}
+                                    {{ form_errors(form.manufacturer) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    {% set required_name = form.name.vars.errors|length > 0 ? 'is-invalid':'' %}
+                                    {{ form_label(form.name) }}<span>*</span>
+                                    {{ form_widget(form.name, {'attr': {'class': 'form-control '~ required_name}}) }}
+                                    {{ form_errors(form.name) }}
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    {% set required_color = form.color.vars.errors|length > 0 ? 'is-invalid':'' %}
+                                    {{ form_label(form.color) }}<span>*</span>
+                                    {{ form_widget(form.color, {'attr': {'class': 'form-control '~ required_color}}) }}
+                                    {{ form_errors(form.color) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    {% set required_chasisNumber = form.chasisNumber.vars.errors|length > 0 ? 'is-invalid':'' %}
+                                    {{ form_label(form.chasisNumber) }}<span>*</span>
+                                    {{ form_widget(form.chasisNumber, {'attr': {'class': 'form-control '~ required_chasisNumber}}) }}
+                                    {{ form_errors(form.chasisNumber) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                            <div class="js-car-owner-wrapper"
+                                data-prototype="{{ formMacros.carOwnerForm(form.owner.vars.prototype)|e('html_attr') }}"
+                                data-index="{{ form.owner|length }}">
+                                {% for ownerForm in form.owner %}
+                                    {{ formMacros.carOwnerForm(ownerForm) }}
+                                {% endfor %}
+                                <a href="#" class="js-car-owner-add text-bold">
+                                    <span class="fa fa-plus-circle"></span>
+                                    {{ 'Add Car Owner Details'|trans }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-right">
+                        <a href="{{ path('car_index') }}" class="btn btn-outline-secondary mr-2">{{ 'Cancel'|trans }}</a>
+                        <input type="submit" value="{{ 'Save'|trans }}" class="btn btn-purple">
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    </section>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+        var $wrapper = $('.js-car-owner-wrapper');
+        $wrapper.on('click', '.js-remove-owner', function(e) {
+            e.preventDefault();
+            $(this).closest('.js-car-owner-item')
+                .fadeOut()
+                .remove();
+        });
+        $wrapper.on('click', '.js-car-owner-add', function(e) {
+            e.preventDefault();
+            // Get the data-prototype explained earlier
+            var prototype = $wrapper.data('prototype');
+            // get the new index
+            var index = $wrapper.data('index');
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            var newForm = prototype.replace(/__name__/g, index);
+            // increase the index with one for the next item
+            $wrapper.data('index', index + 1);
+            // Display the form in the page before the "new" link
+            $(this).before(newForm);
+        });
+    });
+    </script>
+{% endblock %}

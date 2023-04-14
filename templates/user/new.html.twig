@@ -1,0 +1,71 @@
+{% extends 'userbase.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row box-center">
+            <div class="col-12 d-flex justify-content-center">
+                <div class="card w-50">
+                    <div class="card-body register-card-body">
+                        <div class="register-logo">
+                            <a href="#"><b>{{ setting.appName }}</b></a>
+                        </div>
+                        {% for flashError in app.flashes('verify_email_error') %}
+                            <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                        {% endfor %}
+                        <p class="login-box-msg">{{ 'Register a new membership'|trans }}</p>
+                        {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+                        {% form_theme form 'admin/form_errors.html.twig' %}
+                        {{ form_errors(form) }}
+                        <div class="input-group mb-3">
+                            {% set name_validation = form.name.vars.errors|length > 0 ? 'is-invalid':'' %}
+                            {{ form_widget(form.name, {'attr': {'class': 'form-control ' ~ name_validation, 'placeholder': 'Name'}}) }}
+                            {{ form_errors(form.name) }}
+                        </div>
+                        <div class="input-group mb-3">
+                            {% set email_validation = form.email.vars.errors|length > 0 ? 'is-invalid':'' %}
+                            {{ form_widget(form.email, {'attr': {'class': 'form-control ' ~ email_validation, 'placeholder': 'Email'}}) }}
+                            {{ form_errors(form.email) }}
+                        </div>
+                        <div class="input-group mb-3">
+                            {% set countryCode_validation = form.countryCode.vars.errors|length > 0 ? 'is-invalid':'' %}
+                            {{ form_widget(form.countryCode, {'attr': {'class': 'form-control custom-select ' ~ countryCode_validation}}) }}
+                            {{ form_errors(form.countryCode) }}
+                        </div>
+                        <div class="input-group mb-3">
+                            {% set contactNumber_validation = form.contactNumber.vars.errors|length > 0 ? 'is-invalid':'' %}
+                            {{ form_widget(form.contactNumber, {'attr': {'class': 'form-control ' ~ contactNumber_validation, 'placeholder': 'Contact Number'}}) }}
+                            {{ form_errors(form.contactNumber) }}
+                        </div>
+                        <div class="input-group mb-3">
+                            {% set passwordFirst_validation = form.password.passwordFirst.vars.errors|length > 0 ? 'is-invalid':'' %}
+                            {{ form_widget(form.password.passwordFirst, {'attr': {'class': 'form-control ' ~ passwordFirst_validation, 'placeholder': 'Password'}}) }}
+                            {{ form_errors(form.password.passwordFirst) }}
+                        </div>
+                        <div class="input-group mb-3">
+                            {% set passwordSecond_validation = form.password.passwordSecond.vars.errors|length > 0 ? 'is-invalid':'' %}
+                            {{ form_widget(form.password.passwordSecond, {'attr': {'class': 'form-control ' ~ passwordSecond_validation, 'placeholder': 'Confirm Password'}}) }}
+                            {{ form_errors(form.password.passwordSecond) }}
+                        </div>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="">
+                                    {% set agreeTerms_validation = form.agreeTerms.vars.errors|length > 0 ? 'is-invalid':'' %}
+                                    {{ form_widget(form.agreeTerms, {'attr': {'class' : agreeTerms_validation}}) }}
+                                    <label for="{{ form.agreeTerms.vars.id }}" class="form-check-label">
+                                        I agree to the <a href="#">terms</a>
+                                    </label>
+                                    {{ form_errors(form.agreeTerms) }}
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <button type="submit" class="btn btn-purple btn-block">{{ 'Register'|trans }}</button>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                        <a href="{{ path('app_login') }}" class="text-center">{{ 'I already have a membership'|trans }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
