@@ -11,8 +11,10 @@ use App\Repository\ManufacturerRepository;
 use App\Services\DataTableManager;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/manufacturer')]
+#[IsGranted("ROLE_ADMIN")]
 class ManufacturerController extends AbstractController
 {
     #[Route('/', name: 'manufacturer_index', options: ['expose'=> true] )]

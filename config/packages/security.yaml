@@ -56,9 +56,10 @@ security:
         - { path: ^/dashboard, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/car, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/manufacturer, role: IS_AUTHENTICATED_FULLY }
-        - { path: ^/api/login, role: PUBLIC_ACCESS }
         - { path: ^/api/generateToken, role: PUBLIC_ACCESS }
         - { path: ^/api,       role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/login, role: PUBLIC_ACCESS }
+        - { path: ^/register, role: PUBLIC_ACCESS }
 
 when@test:
     security:
