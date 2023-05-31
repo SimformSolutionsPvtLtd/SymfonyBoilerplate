@@ -13,4 +13,3 @@ import 'bootstrap-select';
 import 'select2';
 import 'datatables.net';
 import 'datatables.net-bs4';
-import './bootstrap';
