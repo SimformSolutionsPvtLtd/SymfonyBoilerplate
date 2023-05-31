@@ -11,9 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Services\ApiManager;
 
+#[Route('/api')]
 class ApiLoginController extends AbstractController
 {
-    #[Route('/api/generateToken', name: 'api_login', methods:["POST"])]
+    #[Route('/generateToken', name: 'api_login', methods:["POST"])]
     public function generateToken(Request $request, ApiManager $apiManager)
     {
         $content = $request->getContent();
@@ -22,7 +23,7 @@ class ApiLoginController extends AbstractController
         return new JsonResponse($response);
     }
 
-    #[Route('/api/car/list', name: 'api_check_auth', methods:["GET"])]
+    #[Route('/car/list', name: 'api_check_auth', methods:["GET"])]
     public function getCars(EntityManagerInterface $entityManager)
     {
         $cars = $entityManager->getRepository(Car::class)->findAll();

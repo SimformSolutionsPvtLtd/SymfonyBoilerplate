@@ -15,6 +15,12 @@ class Car
 {
     use TimestampableEntity;
 
+    const carTypeChoices = [
+        'car-type-one' => 'HATCHBACK',
+        'car-type-two' => 'SEDAN',
+        'car-type-three' => 'SUV',
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

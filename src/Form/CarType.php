@@ -20,11 +20,6 @@ class CarType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $carTypeChoices = array(
-            'car-type-one' => 'HATCHBACK',
-            'car-type-two' => 'SEDAN',
-            'car-type-three' => 'SUV',
-        );
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
@@ -42,17 +37,15 @@ class CarType extends AbstractType
                 'required' => true,
                 'expanded' => false,
                 'placeholder' => 'Choose',
-                'choices' => array_flip($carTypeChoices),
+                'choices' => array_flip(Car::carTypeChoices),
                 'label' => 'Choose Car Type'
             ])
             ->add('manufacturer', EntityType::class,[
                 'required' => false,
                 'placeholder' => 'Choose',
                 'class' => Manufacturer::class,
-                'choice_label' => 'companyName',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->getAll();
-                }])
+                'choice_label' => 'companyName'
+            ])
             ->add('owner', CollectionType::class,
                 [
                     'entry_type' => CarOwnerType::class,
