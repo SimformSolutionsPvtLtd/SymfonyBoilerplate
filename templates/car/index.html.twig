@@ -1,0 +1,94 @@
+{% extends 'admin/admin_base.html.twig' %}
+
+{% block body %}
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col-6"><h4 class="text-bold">{{ 'Car List'|trans }}</h4></div>
+                                <div class="col-6 text-right">
+                                    <a href="{{ path('car_new') }}" class="btn btn-sm btn-outline-purple"><i class="fas fa-plus"></i>
+                                        {{ 'Add New'|trans }}</a>
+                                </div>
+                            </div>
+                            <table class="table" id="article_table">
+                                <thead>
+                                <tr>
+                                    <th>{{ 'Id'|trans }}</th>
+                                    <th>{{ 'Name'|trans }}</th>
+                                    <th>{{ 'Color'|trans }}</th>
+                                    <th>{{ 'Chasis Number'|trans }}</th>
+                                    <th>{{ 'Manufacturer'|trans }}</th>
+                                    <th>{{ 'Actions'|trans }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <form method="post" action="" id="delete_form">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete-item') }}">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block javascript %}
+{{ parent() }}
+<script>
+    $(document).ready(function() {
+        $('#article_table').DataTable({
+            "dom": '<"pull-left"fi><"pull-right"l>tpr',
+            "language": {
+                search: "",
+                searchPlaceholder: "{{ 'Search...'|trans }}",
+                paginate: {
+                    next: '<i class="fas fa-step-forward"></i>',
+                    previous: '<i class="fas fa-step-backward"></i>'
+                }
+            },
+            "pageLength": '{{ (setting.pageSize) ? setting.pageSize : 10 }}',
+            "responsive": true,
+            "processing": true,
+            "serverSide": true,
+            "deferRender": true,
+            "ajax": {
+                "url": Routing.generate('car_index'),
+                "type": "POST"
+            },
+            "columns": [
+                { "data": "id" },
+                { "data": "name"},
+                { "data": "color" },
+                { "data": "chasisNumber" },
+                { "data": "manufacturer" },
+                { "data": "action",
+                    "orderable": false,
+                    "render": function ( data, type, row, meta ) {
+                        var route = Routing.generate('car_edit', { id: row.id });
+                        var actions = '';
+                        actions += '<a href="{{ locale }}'+route+'" class="mx-2"><i class="fas fa-pencil-alt"></i></a>';
+                        actions += '<a onclick="deleteItem('+row.id+');" href="javascript:;" class="mx-2"><i class="far fa-trash-alt"></i></a>';
+                        return actions;
+                    }
+                }
+            ]
+        });
+    });
+
+    function deleteItem(id) {
+        var r = confirm("Do you want to delete record?");
+        if (r === true) {
+            let delUrl = Routing.generate('car_delete', { id: id });
+            $('#delete_form').attr('action', delUrl);
+            $('#delete_form').submit();
+        }
+    }
+</script>
+{% endblock %}
